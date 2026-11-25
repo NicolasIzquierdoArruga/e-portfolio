@@ -14,7 +14,11 @@ const path = Astro.url.pathname;
 <header class="site-header">
   <div class="container bar">
     <a class="brand" href={url('/')}>
-      <span class="brand-mark" aria-hidden="true">NI</span>
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="29" height="29" rx="6" fill="#2f7d4f" stroke="#1d5233" stroke-width="2"></rect>
+        <rect x="9" y="9" width="14" height="14" rx="2" fill="#2b2f33"></rect>
+        <path d="M11 9V6M16 9V6M21 9V6M11 23v3M16 23v3M21 23v3M9 11H6M9 16H6M9 21H6M23 11h3M23 16h3M23 21h3" stroke="#e2bf4a" stroke-width="1.8" stroke-linecap="round"></path>
+      </svg>
       <span class="brand-name">{SITE.shortName}</span>
     </a>
 
@@ -66,15 +70,9 @@ const path = Astro.url.pathname;
     white-space: nowrap;
   }
   .brand-mark {
-    display: inline-grid;
-    place-items: center;
     width: 2rem;
     height: 2rem;
-    border-radius: 6px;
-    background: var(--accent);
-    color: var(--bg);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
+    flex-shrink: 0;
   }
   nav {
     margin-left: auto;

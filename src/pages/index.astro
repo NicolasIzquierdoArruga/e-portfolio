@@ -3,6 +3,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ProfilePhoto from '../components/ProfilePhoto.astro';
+import BoardNav from '../components/BoardNav.astro';
 import { SITE } from '../data/site';
 import { getProjectsByStatus } from '../lib/projects';
 import { url } from '../lib/url';
@@ -37,6 +38,10 @@ const strengths = [
 ---
 
 <BaseLayout>
+  <div class="container">
+    <BoardNav />
+  </div>
+
   <section class="hero container">
     <ProfilePhoto />
     <div>
