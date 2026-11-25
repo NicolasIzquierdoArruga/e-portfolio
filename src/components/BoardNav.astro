@@ -300,54 +300,54 @@ for (let i = 0; i < 9; i++) {
 
   /* Flat, toy-like palette with dark outlines (Tinkercad look). */
   .pcb {
-    fill: #2f7d4f;
-    stroke: #1d5233;
+    fill: var(--teal-700);
+    stroke: var(--teal-900);
     stroke-width: 5;
   }
   .hole-ring {
-    fill: #d9c36a;
+    fill: var(--gold-400);
   }
   .hole {
     fill: var(--bg);
   }
   .trace path {
     fill: none;
-    stroke: #3f9663;
+    stroke: var(--teal-500);
     stroke-width: 5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
   .metal {
-    fill: #c9ced3;
-    stroke: #7c848b;
+    fill: var(--metal-300);
+    stroke: var(--metal-600);
     stroke-width: 3;
   }
   .metal-dark {
-    fill: #5d656c;
+    fill: var(--ink-600);
   }
   .part-grey {
-    fill: #d7dadd;
-    stroke: #6f777e;
+    fill: var(--metal-300);
+    stroke: var(--metal-600);
     stroke-width: 3;
   }
   .btn-red {
-    fill: #d84a3a;
-    stroke: #8e2a1f;
+    fill: var(--coral-500);
+    stroke: var(--coral-700);
     stroke-width: 3;
   }
   .chip {
-    fill: #2b2f33;
-    stroke: #121416;
+    fill: var(--ink-800);
+    stroke: var(--ink-900);
     stroke-width: 3;
   }
   .chip-pin {
-    fill: #c9ced3;
+    fill: var(--metal-300);
   }
   .chip-dot {
-    fill: #4a5056;
+    fill: var(--ink-600);
   }
   .chip-text {
-    fill: #e9ecef;
+    fill: var(--silk);
     font: 700 22px var(--font-mono);
     text-anchor: middle;
   }
@@ -358,12 +358,12 @@ for (let i = 0; i < 9; i++) {
     font-size: 16px;
   }
   .cap {
-    fill: #e0b45c;
-    stroke: #9a7430;
+    fill: var(--gold-400);
+    stroke: var(--gold-700);
     stroke-width: 2;
   }
   .silk {
-    fill: #f3f6f2;
+    fill: var(--silk);
     font: 700 16px var(--font-mono);
     text-anchor: middle;
   }
@@ -386,23 +386,23 @@ for (let i = 0; i < 9; i++) {
     font-family: var(--font-sans);
   }
   .header {
-    fill: #26292c;
-    stroke: #111;
+    fill: var(--ink-800);
+    stroke: var(--ink-900);
     stroke-width: 3;
   }
   .pad {
-    fill: #e2bf4a;
-    stroke: #8f7420;
+    fill: var(--gold-400);
+    stroke: var(--gold-700);
     stroke-width: 2;
   }
   .led-pwr {
-    fill: #7dff8a;
-    stroke: #2e8c3a;
+    fill: var(--teal-300);
+    stroke: var(--teal-900);
     stroke-width: 2;
   }
   .led {
-    fill: #5b3b36;
-    stroke: #2a1a17;
+    fill: #5a2a22;
+    stroke: var(--ink-900);
     stroke-width: 2;
     transition: fill 0.15s;
   }
@@ -418,13 +418,13 @@ for (let i = 0; i < 9; i++) {
     stroke-width: 3;
   }
   .reset:hover .btn-red {
-    fill: #f0604f;
+    fill: var(--coral-300);
   }
   .reset:focus-visible {
     outline: none;
   }
   .reset:focus-visible .hit {
-    stroke: #ffe066;
+    stroke: var(--gold-200);
     stroke-dasharray: 8 6;
   }
   .pin .hit {
@@ -440,16 +440,16 @@ for (let i = 0; i < 9; i++) {
     outline: none;
   }
   .pin:focus-visible .hit {
-    stroke: #ffe066;
+    stroke: var(--gold-200);
     stroke-dasharray: 8 6;
   }
   .pin.near .pad,
   .pin:hover .pad {
-    fill: #ffe066;
+    fill: var(--gold-200);
   }
   .pin.on .led {
-    fill: #ff2d1f;
-    stroke: #ffd0c8;
+    fill: var(--coral-300);
+    stroke: var(--coral-500);
     transition: none;
     filter: url(#glow);
   }
@@ -457,7 +457,7 @@ for (let i = 0; i < 9; i++) {
   /* The jumper wire. */
   .wire {
     fill: none;
-    stroke: #e0392b;
+    stroke: var(--coral-500);
     stroke-width: 9;
     stroke-linecap: round;
   }
@@ -472,12 +472,12 @@ for (let i = 0; i < 9; i++) {
     fill: transparent;
   }
   .plug-body {
-    fill: #2a2d30;
-    stroke: #e0392b;
+    fill: var(--ink-800);
+    stroke: var(--coral-500);
     stroke-width: 4;
   }
   .plug-tip {
-    fill: #c9ced3;
+    fill: var(--metal-300);
   }
   /* Gentle bob to show the plug can be grabbed, until the first touch. */
   .board:not(.touched):not(.plugged) .plug-body,
