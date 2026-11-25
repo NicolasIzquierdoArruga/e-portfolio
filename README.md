@@ -91,7 +91,7 @@ Use fenced code blocks with the language name, they are highlighted automaticall
 ## Edit your details
 
 - Name, email, LinkedIn, GitHub, CV file names: `src/data/site.ts`.
-- CV PDFs: put them in `public/cv/` with the names listed in `public/cv/README.md`.
+- CV PDF: put it in `public/cv/` with the name listed in `public/cv/README.md`.
 - Photo: add `src/assets/profile.jpg` (square works best). It appears on the home page automatically.
 - Gaps still to fill are shown on the site in pink dashed boxes. Search for `<Placeholder` in `src/pages/`.
 
