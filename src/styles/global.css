@@ -335,6 +335,40 @@ hr {
   margin: 1.25rem 0;
 }
 
+/*
+ * "Line" links: uppercase label after a thin line that grows on hover,
+ * like a trace being routed to the label.
+ */
+.line-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: color 0.15s;
+}
+.line-link::before {
+  content: '';
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.2s ease, height 0.2s ease;
+}
+.line-link:hover,
+.line-link:focus-visible {
+  color: var(--accent);
+}
+.line-link:hover::before,
+.line-link:focus-visible::before {
+  width: 4rem;
+  height: 2px;
+}
+
 /* Small rounded labels for tags */
 .tag {
   display: inline-block;

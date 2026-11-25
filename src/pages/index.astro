@@ -51,19 +51,38 @@ const strengths = [
         work to make everything run together. This site collects the projects I have done so far, from my bachelor's
         thesis to my internship at Indra, and the ones I am working on now.
       </p>
-      <div class="btn-row">
-        <a class="btn btn-primary" href={url(SITE.cv[0].file)}>Download CV (PDF)</a>
-        <a class="btn" href={SITE.linkedin} rel="me">LinkedIn</a>
-        <a class="btn" href={SITE.github} rel="me">GitHub</a>
-        <a class="btn" href={`mailto:${SITE.email}`}>Email</a>
-      </div>
+      <nav class="page-links" aria-label="On this page">
+        <ul>
+          <li><a class="line-link" href="#featured">Finished projects</a></li>
+          {ongoing.length > 0 && <li><a class="line-link" href="#ongoing">Currently working on</a></li>}
+          <li><a class="line-link" href="#strengths">What I have worked on</a></li>
+          <li><a class="line-link" href={url(SITE.cv[0].file)}>Download CV (PDF)</a></li>
+        </ul>
+      </nav>
+      <ul class="icon-links" aria-label="Elsewhere">
+        <li>
+          <a href={SITE.github} rel="me" aria-label="GitHub" title="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"></path></svg>
+          </a>
+        </li>
+        <li>
+          <a href={SITE.linkedin} rel="me" aria-label="LinkedIn" title="LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"></path></svg>
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${SITE.email}`} aria-label="Email" title="Email">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 5h18v14H3z M3 6l9 7 9-7"></path></svg>
+          </a>
+        </li>
+      </ul>
     </div>
   </section>
 
   <section class="container band" aria-labelledby="featured">
     <div class="section-head">
       <h2 id="featured">Finished projects</h2>
-      <a href={url('/projects')}>All projects →</a>
+      <a class="line-link" href={url('/projects')}>All projects</a>
     </div>
     <div class="grid">
       {featured.map((project) => <ProjectCard project={project} />)}
@@ -75,7 +94,7 @@ const strengths = [
       <section class="container band" aria-labelledby="ongoing">
         <div class="section-head">
           <h2 id="ongoing">Currently working on</h2>
-          <a href={url('/projects#ongoing')}>Ongoing projects →</a>
+          <a class="line-link" href={url('/projects#ongoing')}>Ongoing projects</a>
         </div>
         <div class="grid">
           {ongoing.map((project) => (
@@ -94,7 +113,7 @@ const strengths = [
           <li class="card">
             <h3>{s.title}</h3>
             <p>{s.text}</p>
-            <a href={url(s.href)}>See the project →</a>
+            <a class="line-link" href={url(s.href)}>See the project</a>
           </li>
         ))
       }
@@ -117,6 +136,38 @@ const strengths = [
   .intro {
     max-width: var(--prose-width);
     color: var(--text-muted);
+  }
+  .page-links ul,
+  .icon-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .page-links {
+    margin: 1.75rem 0 1.5rem;
+  }
+  .page-links li + li {
+    margin-top: 0.85rem;
+  }
+  .icon-links {
+    display: flex;
+    gap: 1.1rem;
+    align-items: center;
+  }
+  .icon-links a {
+    display: block;
+    color: var(--text-muted);
+    transition: color 0.15s, transform 0.15s;
+  }
+  .icon-links a:hover,
+  .icon-links a:focus-visible {
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .icon-links svg {
+    display: block;
+    width: 1.6rem;
+    height: 1.6rem;
   }
   .band {
     margin-top: 3rem;
