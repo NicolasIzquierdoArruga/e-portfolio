@@ -1,0 +1,47 @@
+---
+import { SITE } from '../data/site';
+import { url } from '../lib/url';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container inner">
+    <p>
+      © {year} {SITE.name} · {SITE.location}
+    </p>
+    <ul class="links">
+      <li><a href={`mailto:${SITE.email}`}>Email</a></li>
+      <li><a href={SITE.linkedin} rel="me">LinkedIn</a></li>
+      <li><a href={SITE.github} rel="me">GitHub</a></li>
+      <li><a href={url('/cv')}>CV</a></li>
+    </ul>
+    <p class="muted small">
+      Built with Astro and plain CSS. No tracking, no cookies.{" "}
+      <a href="https://github.com/NicolasIzquierdoArruga/e-portfolio">Source code</a>.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-soft);
+    padding: 2rem 0;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+  }
+  .inner p {
+    margin: 0 0 0.5rem;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+  }
+  .small {
+    font-size: 0.85rem;
+  }
+</style>

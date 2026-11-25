@@ -1,0 +1,30 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { url } from '../lib/url';
+---
+
+<PageLayout
+  title="Sustainability and civic engagement"
+  eyebrow="Engagement"
+  description="Associations and civic engagement of Nicolás Izquierdo Arruga."
+  lead="Associations, volunteering and projects outside the classroom."
+>
+  <h2>AstreLoon student association</h2>
+  <p>
+    Since November 2026 I have been a member of AstreLoon, a student association in Toulouse that takes part in the CNES /
+    Planète Sciences student balloon programme. In a team of 12, I develop the RF co-processor software of the payload.
+    <a href={url('/projects/astreloon')}>Project page and log →</a>
+  </p>
+
+  <h2>Teaching</h2>
+  <p>
+    From 2021 to 2025 I tutored high-school and university students in maths and science, including preparation for
+    the university entrance exam.
+  </p>
+
+  <h2>Civic engagement (40 h, S9)</h2>
+  <Placeholder>
+    <p>Add the civic engagement activity and its hours when it is decided, plus anything related to sustainability.</p>
+  </Placeholder>
+</PageLayout>

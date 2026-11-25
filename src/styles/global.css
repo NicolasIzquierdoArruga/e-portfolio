@@ -1,0 +1,373 @@
+/*
+ * Global styles.
+ * Colours are CSS variables ("tokens") so light and dark mode only need to
+ * redefine them once. Components use the variables, never raw colours.
+ */
+
+:root {
+  --bg: #fbfbfa;
+  --bg-soft: #f1f2f0;
+  --surface: #ffffff;
+  --text: #1b1f23;
+  --text-muted: #555e66;
+  --border: #dcdfe2;
+  --accent: #0b6e69;        /* teal, 5.9:1 on white */
+  --accent-soft: #e2f1ef;
+  --warn-bg: #fff6e0;
+  --warn-border: #e0b44c;
+  --todo-bg: #fdeef0;
+  --todo-border: #d46a7c;
+
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, Consolas, monospace;
+
+  --radius: 10px;
+  --max-width: 72rem;
+  --prose-width: 44rem;
+
+  color-scheme: light;
+}
+
+/* Dark mode, when the visitor's system asks for it (and no manual choice). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #111416;
+    --bg-soft: #191d20;
+    --surface: #1a1f22;
+    --text: #e7eaec;
+    --text-muted: #a3acb3;
+    --border: #2e3539;
+    --accent: #5fcfc6;
+    --accent-soft: #163331;
+    --warn-bg: #2e2612;
+    --warn-border: #a17f2c;
+    --todo-bg: #33191e;
+    --todo-border: #b4566a;
+    color-scheme: dark;
+  }
+}
+
+/* Dark mode, when chosen with the toggle button. */
+:root[data-theme='dark'] {
+  --bg: #111416;
+  --bg-soft: #191d20;
+  --surface: #1a1f22;
+  --text: #e7eaec;
+  --text-muted: #a3acb3;
+  --border: #2e3539;
+  --accent: #5fcfc6;
+  --accent-soft: #163331;
+  --warn-bg: #2e2612;
+  --warn-border: #a17f2c;
+  --todo-bg: #33191e;
+  --todo-border: #b4566a;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 5rem; /* keep headings visible under the sticky header */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.25;
+  margin: 2rem 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+p,
+ul,
+ol {
+  margin: 0 0 1rem;
+}
+
+code,
+kbd,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+:not(pre) > code {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.05em 0.3em;
+}
+
+/* Code blocks highlighted by Shiki. Dual themes: switch with the colour mode. */
+pre.astro-code {
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  line-height: 1.5;
+  margin: 0 0 1.25rem;
+}
+
+:root[data-theme='dark'] .astro-code,
+:root[data-theme='dark'] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .astro-code,
+  :root:not([data-theme='light']) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  display: block;
+  overflow-x: auto;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.45rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: var(--bg-soft);
+  font-weight: 600;
+}
+
+blockquote {
+  margin: 0 0 1.25rem;
+  padding: 0.25rem 1rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text-muted);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+/* ---------- Layout helpers ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+}
+
+.prose {
+  max-width: var(--prose-width);
+}
+
+.prose img {
+  border-radius: var(--radius);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.lead {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: var(--prose-width);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.page {
+  padding: 2.5rem 0 4rem;
+}
+
+/* Buttons and button-like links */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  color: var(--bg);
+  filter: brightness(1.08);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.25rem 0;
+}
+
+/* Small rounded labels for tags */
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Boxes */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.notice {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+}
+
+/* Diagrams are drawn on a light panel so they read well in both modes. */
+.diagram {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+}
+
+figure {
+  margin: 0 0 1.5rem;
+}
+
+figcaption {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

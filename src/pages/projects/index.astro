@@ -1,0 +1,125 @@
+---
+/**
+ * Projects list, in two sections: finished and ongoing.
+ * The tag buttons filter both sections at once (small script at the end).
+ * Without JavaScript every project is simply shown.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getProjectsByStatus, collectTags } from '../../lib/projects';
+
+const { finished, ongoing } = await getProjectsByStatus();
+const tags = collectTags([...finished, ...ongoing]);
+---
+
+<BaseLayout
+  title="Projects"
+  description="FPGA, embedded and hardware projects by Nicolás Izquierdo Arruga: timing closure at 416 MHz, ADC bring-up, current sensing and a 24.4 ns hardware trip."
+>
+  <div class="container page">
+    <p class="eyebrow">Projects</p>
+    <h1>Projects</h1>
+    <p class="lead">
+      FPGA design first, then embedded and hardware work. Each page explains the problem, what I did, how I tested it
+      and what I learned.
+    </p>
+
+    <div class="filters" role="group" aria-label="Filter projects by tag" hidden>
+      <button type="button" class="filter" data-tag="" aria-pressed="true">All</button>
+      {
+        tags.map((tag) => (
+          <button type="button" class="filter" data-tag={tag} aria-pressed="false">
+            {tag}
+          </button>
+        ))
+      }
+    </div>
+
+    <section aria-labelledby="finished">
+      <h2 id="finished">Finished projects <span class="count">{finished.length}</span></h2>
+      <div class="grid">
+        {finished.map((project) => <ProjectCard project={project} />)}
+      </div>
+      <p class="empty muted" hidden>No finished project with this tag.</p>
+    </section>
+
+    <section aria-labelledby="ongoing">
+      <h2 id="ongoing">Ongoing projects <span class="count">{ongoing.length}</span></h2>
+      <p class="muted">Work in progress. These pages are updated as the projects move forward.</p>
+      <div class="grid">
+        {ongoing.map((project) => <ProjectCard project={project} />)}
+      </div>
+      <p class="empty muted" hidden>No ongoing project with this tag.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('.filters');
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.filter')];
+  const sections = [...document.querySelectorAll<HTMLElement>('main section')];
+
+  function apply(tag: string) {
+    for (const b of buttons) b.setAttribute('aria-pressed', String(b.dataset.tag === tag));
+    for (const section of sections) {
+      let visible = 0;
+      for (const card of section.querySelectorAll<HTMLElement>('.project-card')) {
+        const show = !tag || (card.dataset.tags ?? '').split('|').includes(tag);
+        card.hidden = !show;
+        if (show) visible++;
+      }
+      const empty = section.querySelector<HTMLElement>('.empty');
+      if (empty) empty.hidden = visible > 0;
+      const count = section.querySelector('.count');
+      if (count) count.textContent = String(visible);
+    }
+  }
+
+  if (bar) {
+    bar.hidden = false; // only show the filter when JavaScript runs
+    for (const b of buttons) b.addEventListener('click', () => apply(b.dataset.tag ?? ''));
+  }
+</script>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1.5rem 0 0.5rem;
+  }
+  .filter {
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .filter:hover {
+    border-color: var(--accent);
+  }
+  .filter[aria-pressed='true'] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+  section {
+    margin-top: 2.5rem;
+  }
+  .count {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0 0.5rem;
+    vertical-align: middle;
+  }
+  :global(.project-card[hidden]) {
+    display: none;
+  }
+</style>

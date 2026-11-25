@@ -1,0 +1,58 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Timeline from '../components/Timeline.astro';
+import { SITE } from '../data/site';
+import { url } from '../lib/url';
+
+const experience = [
+  {
+    title: 'FPGA / Firmware Engineering Intern',
+    org: 'Indra, Air Defence',
+    period: 'Apr 2026 – Aug 2026',
+    place: 'Torrejón de Ardoz (Madrid), Spain',
+    points: [
+      "Ported a senior engineer's Cyclone IV prototype of a fixed-point down-conversion chain to a Xilinx Artix-7 200T in VHDL and re-architected it for 416 MHz: 99-tap complex FIR, NCO mixer and decimate-by-13 polyphase filter.",
+      "Closed timing at 416 MHz (2.4 ns period) by hand-instantiating DSP48E1 cascades where Vivado's inference left the delay line in fabric, moving lookup tables into registered block RAM, re-pipelining critical paths and floorplanning with Pblocks.",
+      'Built a fixed-point MATLAB reference model and validated each RTL stage against it by dumping testbench outputs to CSV and comparing the sequences in MATLAB.',
+      'Wrote an SPI master and control state machines to bring up a TI high-speed ADC (44 registers written and read back); debugged on the board with an integrated logic analyser and oscilloscope.',
+    ],
+    link: { label: 'Project pages', href: url('/projects/fpga-ddc-416mhz') },
+  },
+  {
+    title: 'Electrical Engineering Intern',
+    org: 'Valladares Ingeniería',
+    period: 'Nov 2025 – Mar 2026',
+    place: 'Madrid, Spain',
+    points: ['Design and on-site follow-up of electrical installations for construction projects, working with the other engineering areas.'],
+  },
+  {
+    title: 'Private tutor',
+    org: 'Self-employed',
+    period: 'Sep 2021 – Jul 2025',
+    place: 'Madrid, Spain',
+    points: ['Maths and science for high-school and university students, including university entrance exam preparation.'],
+  },
+];
+---
+
+<PageLayout
+  title="Career development"
+  eyebrow="Career"
+  description="Experience and career goals of Nicolás Izquierdo Arruga: FPGA internship at Indra, looking for an FPGA hardware engineering internship in summer 2027."
+  lead={`${SITE.focus} The MSc requires an internship in summer 2027.`}
+>
+  <h2>What I am looking for</h2>
+  <p>
+    An FPGA hardware engineering internship for summer 2027, in a team where latency and timing are measured in
+    nanoseconds and the design is tested on real hardware. High-frequency trading firms are my first target. I want
+    to work in the lab, close to the boards, where I can prototype, test and debug my own designs.
+  </p>
+
+  <h2>Experience</h2>
+  <Timeline items={experience} />
+
+  <h2>CV</h2>
+  <p>
+    <a href={url('/cv')}>Download my CV</a> (one-page PDF).
+  </p>
+</PageLayout>

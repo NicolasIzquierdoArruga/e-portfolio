@@ -1,0 +1,50 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../data/site';
+import { url } from '../lib/url';
+---
+
+<PageLayout
+  title="Contact"
+  eyebrow="Contact"
+  description="Contact Nicolás Izquierdo Arruga by email or LinkedIn."
+  lead={`${SITE.availability} Email is the fastest way to reach me.`}
+>
+  <ul class="contact">
+    <li class="card">
+      <h2>Email</h2>
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </li>
+    <li class="card">
+      <h2>LinkedIn</h2>
+      <a href={SITE.linkedin} rel="me">{SITE.linkedinLabel}</a>
+    </li>
+    <li class="card">
+      <h2>GitHub</h2>
+      <a href={SITE.github} rel="me">NicolasIzquierdoArruga</a>
+    </li>
+    <li class="card">
+      <h2>CV</h2>
+      <a href={url('/cv')}>Download (PDF)</a>
+    </li>
+  </ul>
+  <p class="muted">Based in {SITE.location}.</p>
+</PageLayout>
+
+<style>
+  .contact {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+  .contact h2 {
+    margin: 0 0 0.3rem;
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+  .contact a {
+    word-break: break-word;
+  }
+</style>

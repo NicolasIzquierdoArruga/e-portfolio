@@ -1,0 +1,80 @@
+---
+/** Vertical timeline used for experience and education. */
+interface Item {
+  title: string;
+  org: string;
+  period: string;
+  place?: string;
+  points?: string[];
+  link?: { label: string; href: string };
+}
+interface Props {
+  items: Item[];
+}
+const { items } = Astro.props;
+---
+
+<ol class="timeline">
+  {
+    items.map((item) => (
+      <li>
+        <p class="period">{item.period}{item.place && ` · ${item.place}`}</p>
+        <h3>
+          {item.title} <span class="org">· {item.org}</span>
+        </h3>
+        {item.points && (
+          <ul>
+            {item.points.map((p) => (
+              <li set:html={p} />
+            ))}
+          </ul>
+        )}
+        {item.link && <a href={item.link.href}>{item.link.label} →</a>}
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    border-left: 2px solid var(--border);
+  }
+  .timeline > li {
+    position: relative;
+    padding: 0 0 1.75rem 1.4rem;
+  }
+  .timeline > li::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 0.45rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .period {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+  h3 {
+    margin: 0.15rem 0 0.5rem;
+  }
+  .org {
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+  ul {
+    padding-left: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  ul li {
+    margin-bottom: 0.3rem;
+  }
+</style>

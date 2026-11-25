@@ -1,0 +1,33 @@
+---
+/** Simple text page: eyebrow, title, intro, then the content. */
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+  lead?: string;
+}
+const { title, description, eyebrow, lead } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="container page">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <div class="body">
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .body {
+    margin-top: 2rem;
+    max-width: 52rem;
+  }
+  .body :global(h2:first-child) {
+    margin-top: 0;
+  }
+</style>
