@@ -8,14 +8,17 @@ status: completed
 featured: true
 order: 1
 tags: ['FPGA', 'VHDL', 'Timing closure', 'DSP', 'Vivado', 'MATLAB']
-thumbnail: '../../assets/diagrams/ddc-chain.svg'
-thumbnailAlt: 'Block diagram of the down-conversion chain: ADC, complex FIR, NCO mixer, polyphase decimator.'
+thumbnail: '../../assets/projects/fpga-ddc/bench.jpg'
+thumbnailAlt: 'FPGA lab bench with oscilloscope, signal generator, Vivado on a monitor and the Artix-7 and ADC evaluation boards.'
+cover: '../../assets/projects/fpga-ddc/bench.jpg'
+coverAlt: 'FPGA lab bench: oscilloscope, RF signal generator, Vivado Hardware Manager on the monitor, a laptop, and the Artix-7 and ADC evaluation boards on anti-static foam.'
+coverCaption: 'My bench during the internship: Artix-7 board and ADC evaluation board, signal generator, oscilloscope and Vivado.'
 keyFacts:
   - { value: '416 MHz', label: 'closed timing (2.4 ns period)' }
   - { value: '99 taps', label: 'complex FIR' }
   - { value: '÷13', label: 'polyphase decimation to 32 MHz' }
   - { value: 'Artix-7 200T', label: 'xc7a200t, -3 speed grade' }
-notice: 'This work was done for a defence programme. I describe it only at the engineering level: no signal parameters, application, code or figures from Indra. The diagrams on this page are my own generic drawings.'
+notice: 'This work was done for a defence programme. I describe it only at the engineering level: no signal parameters, application, code or figures from Indra. The diagrams on this page are my own generic drawings; the bench photo is published with permission.'
 ---
 
 ## Overview

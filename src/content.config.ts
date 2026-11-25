@@ -37,6 +37,11 @@ const projects = defineCollection({
       thumbnail: image().optional(),
       thumbnailAlt: z.string().optional(),
 
+      /** Large photo shown at the top of the project page (optional). */
+      cover: image().optional(),
+      coverAlt: z.string().optional(),
+      coverCaption: z.string().optional(),
+
       /** Short highlighted facts shown at the top of the page. */
       keyFacts: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
 

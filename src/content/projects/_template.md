@@ -23,6 +23,11 @@ tags: ['FPGA', 'VHDL']
 # thumbnail: '../../assets/projects/my-project/cover.jpg'
 # thumbnailAlt: 'Describe the image for screen readers'
 
+# (optional) big photo at the top of the page
+# cover: '../../assets/projects/my-project/bench.jpg'
+# coverAlt: 'Describe the photo'
+# coverCaption: 'Short caption shown under the photo'
+
 # (optional) big numbers shown at the top
 keyFacts:
   - { value: '100 MHz', label: 'clock' }
