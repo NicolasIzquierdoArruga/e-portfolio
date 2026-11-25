@@ -1,0 +1,29 @@
+---
+/**
+ * A clearly visible "to fill in" box for content that does not exist yet.
+ * Search the code for <Placeholder to find every gap before publishing.
+ */
+interface Props {
+  title?: string;
+}
+const { title = 'To fill in' } = Astro.props;
+---
+
+<div class="placeholder" role="note">
+  <strong>{title}</strong>
+  <div><slot /></div>
+</div>
+
+<style>
+  .placeholder {
+    border: 2px dashed var(--todo-border);
+    background: var(--todo-bg);
+    border-radius: var(--radius);
+    padding: 0.85rem 1rem;
+    margin: 0 0 1.25rem;
+    font-size: 0.95rem;
+  }
+  .placeholder :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

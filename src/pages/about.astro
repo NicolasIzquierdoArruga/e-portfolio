@@ -1,0 +1,131 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { url } from '../lib/url';
+
+// Only skills I can defend in an interview. Grouped for an FPGA reader.
+const skills = [
+  {
+    group: 'HDL and FPGA',
+    items: [
+      'VHDL',
+      'Xilinx Vivado: synthesis, implementation, timing closure and analysis, floorplanning, ILA',
+      'Xilinx 7-series DSP48E1 and block RAM primitives',
+      'Intel Quartus (porting from)',
+    ],
+  },
+  {
+    group: 'Concepts',
+    items: [
+      'Fixed-point DSP: FIR, Hilbert / analytic signal, NCO, polyphase decimation, bandpass sampling',
+      'Timing closure',
+      'ADC input networks and anti-aliasing',
+      'Current sensing and hardware protections',
+      'Power electronics: GaN resonant converters, wireless power transfer',
+    ],
+  },
+  {
+    group: 'Embedded',
+    items: [
+      'C',
+      'TI C2000: Code Composer Studio, ePWM, CMPSS, ADC, X-BAR, Trip Zone',
+      'SPI, UART',
+      'Raspberry Pi and embedded Linux (in progress, AstreLoon)',
+    ],
+  },
+  {
+    group: 'Tools',
+    items: ['MATLAB: fixed-point modelling, signal processing, data analysis', 'LTspice', 'PLECS', 'Git', 'Linux (daily use)'],
+  },
+  {
+    group: 'Lab',
+    items: ['Oscilloscope', 'Logic analyser', 'Signal generator', 'Board bring-up', 'Bench characterisation and calibration'],
+  },
+];
+
+const certifications = [
+  { name: 'IELTS Academic, C1', by: 'British Council', date: 'May 2026 (valid until May 2028)' },
+  { name: 'McKinsey.org Forward Program', by: 'McKinsey & Company', date: 'Dec 2025' },
+  { name: 'BESTINVER educatio', by: 'Bestinver', date: 'Dec 2024' },
+];
+---
+
+<PageLayout
+  title="About me"
+  eyebrow="About"
+  description="About Nicolás Izquierdo Arruga: background, skills, interests and goals as an FPGA and embedded hardware engineer."
+  lead="Electronics engineer from Madrid, now in Toulouse, working on FPGA and embedded hardware."
+>
+  <h2>Background</h2>
+  <p>
+    I studied Industrial Engineering, Electronics and Control, at the Universidad Politécnica de Madrid. My bachelor's
+    thesis (9.8/10) was about the current-sensing chain of a GaN wireless charger, built and measured on real
+    hardware. I then spent five months in the firmware team of Indra's Air Defence division, where I ported an FPGA
+    signal-processing chain to a Xilinx Artix-7 and closed timing at 416 MHz.
+  </p>
+  <p>
+    Since September 2026 I have been doing the MSc ESECA (Aeronautics and Space track) at Toulouse INP–ENSEEIHT and
+    INSA Toulouse.
+  </p>
+
+  <h2>What I want to do</h2>
+  <p>
+    I want to design FPGA hardware where timing is tight, and I want to work in a lab
+    where I can prototype, test and debug my designs directly on the board. That is why I am applying for FPGA
+    hardware engineering internships at high-frequency trading firms for summer 2027.
+  </p>
+  <p>
+    Other fields I find interesting: SoCs that combine FPGAs and processors for signal processing, AI workloads on
+    FPGAs and embedded systems, AI applied to HDL design and verification, space hardware and optoelectronics.
+  </p>
+
+  <h2>Skills</h2>
+  <div class="skills">
+    {
+      skills.map((s) => (
+        <section class="card">
+          <h3>{s.group}</h3>
+          <ul>
+            {s.items.map((i) => (
+              <li>{i}</li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+
+  <h2>Languages</h2>
+  <p>Spanish (native) · English (C1, IELTS Academic 2026)</p>
+
+  <h2>Certifications</h2>
+  <ul>
+    {
+      certifications.map((c) => (
+        <li>
+          <strong>{c.name}</strong> · {c.by} · {c.date}
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="btn-row">
+    <a class="btn btn-primary" href={url('/cv')}>CV</a>
+    <a class="btn" href={url('/contact')}>Contact</a>
+  </p>
+</PageLayout>
+
+<style>
+  .skills {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+  .skills h3 {
+    margin: 0 0 0.5rem;
+  }
+  .skills ul {
+    padding-left: 1.1rem;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { SITE } from '../data/site';
+import { url } from '../lib/url';
+---
+
+<PageLayout
+  title="CV"
+  eyebrow="CV"
+  description="Download the CV of Nicolás Izquierdo Arruga (one-page PDF)."
+  lead="One-page PDF. Two versions with the same facts, in a different order."
+>
+  <ul class="cvs">
+    {
+      SITE.cv.map((cv) => (
+        <li class="card">
+          <h2>{cv.label}</h2>
+          <p class="muted">{cv.note}</p>
+          <a class="btn btn-primary" href={url(cv.file)} download>
+            Download PDF
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</PageLayout>
+
+<style>
+  .cvs {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+  .cvs h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.1rem;
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+/**
+ * A short video: either a YouTube video (privacy-enhanced youtube-nocookie
+ * domain, loaded lazily) or a local MP4 file placed in /public.
+ *
+ *   <Video title="Trip test" youtube="dQw4w9WgXcQ" />
+ *   <Video title="Bench sweep" file="videos/sweep.mp4" />
+ */
+import { url } from '../lib/url';
+
+interface Props {
+  title: string;
+  youtube?: string;
+  file?: string;
+}
+
+const { title, youtube, file } = Astro.props;
+---
+
+<figure class="video">
+  {
+    youtube ? (
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${youtube}`}
+        title={title}
+        loading="lazy"
+        allow="encrypted-media; picture-in-picture"
+        allowfullscreen
+      />
+    ) : file ? (
+      <video controls preload="metadata" src={url(file)}>
+        <a href={url(file)}>Download the video ({title})</a>
+      </video>
+    ) : null
+  }
+  <figcaption>{title}</figcaption>
+</figure>
+
+<style>
+  iframe,
+  video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: var(--radius);
+    background: #000;
+  }
+</style>

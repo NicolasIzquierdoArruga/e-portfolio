@@ -1,0 +1,173 @@
+---
+/**
+ * Site header: name, navigation, CV button and theme toggle.
+ * On small screens the navigation folds into a "Menu" button
+ * (a native <details> element, so it works without JavaScript).
+ */
+import ThemeToggle from './ThemeToggle.astro';
+import { NAV, SITE } from '../data/site';
+import { url, isActive } from '../lib/url';
+
+const path = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={url('/')}>
+      <span class="brand-mark" aria-hidden="true">NI</span>
+      <span class="brand-name">{SITE.shortName}</span>
+    </a>
+
+    <nav aria-label="Main">
+      <details class="menu">
+        <summary>Menu</summary>
+        <ul>
+          {
+            NAV.map((item) => (
+              <li>
+                <a href={url(item.href)} aria-current={isActive(path, item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+    </nav>
+
+    <div class="actions">
+      <a class="btn btn-primary cv" href={url('/cv')}>CV</a>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 3.75rem;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+  .brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 6px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+  nav {
+    margin-left: auto;
+  }
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .cv {
+    padding: 0.4rem 0.9rem;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a[aria-current='page'] {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* --- Small screens: dropdown menu --- */
+  summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.95rem;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .menu {
+    position: relative;
+  }
+  .menu ul {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    min-width: 13rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.4rem;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+  }
+  .menu a {
+    display: block;
+    padding: 0.45rem 0.7rem;
+    border-radius: 6px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .menu a:hover {
+    background: var(--bg-soft);
+  }
+  @media (max-width: 420px) {
+    .brand-name {
+      display: none;
+    }
+  }
+
+  /* --- Wide screens: show all links in a row, hide the Menu button --- */
+  @media (min-width: 1100px) {
+    summary {
+      display: none;
+    }
+    .menu ul {
+      position: static;
+      display: flex;
+      gap: 0.1rem;
+      background: none;
+      border: 0;
+      box-shadow: none;
+      padding: 0;
+      min-width: 0;
+    }
+    .menu a {
+      padding: 0.35rem 0.55rem;
+      font-size: 0.93rem;
+    }
+  }
+</style>
+
+<script>
+  // Wide screens: the <details> must stay open so the links are visible.
+  const menu = document.querySelector<HTMLDetailsElement>('.site-header .menu');
+  const wide = window.matchMedia('(min-width: 1100px)');
+  const sync = () => {
+    if (menu) menu.open = wide.matches;
+  };
+  sync();
+  wide.addEventListener('change', sync);
+</script>

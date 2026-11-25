@@ -1,0 +1,56 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Timeline from '../components/Timeline.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { url } from '../lib/url';
+
+const education = [
+  {
+    title: 'MSc Electronic Systems for Embedded and Communicating Applications (ESECA)',
+    org: 'Toulouse INP–ENSEEIHT / INSA Toulouse',
+    period: 'Sep 2026 – Jun 2028',
+    place: 'Toulouse, France',
+    points: [
+      'Aeronautics and Space track. Joint programme with INSA Toulouse, taught in English. Currently in M1 (first year).',
+      'Focus: digital design, FPGA, embedded systems, communications.',
+    ],
+    link: { label: 'ENSEEIHT', href: 'https://www.enseeiht.fr' },
+  },
+  {
+    title: 'BEng Industrial Engineering, Electronics and Control',
+    org: 'Universidad Politécnica de Madrid, ETSII',
+    period: '2021 – Sep 2026',
+    place: 'Madrid, Spain',
+    points: [
+      `Bachelor's thesis graded <strong>9.8/10</strong>: current-sensing chain for protections in a GaN wireless charger for drones and rovers. <a href="${url('/projects/wi-ufo-current-sensing')}">Project page</a>.`,
+      'Microcontroller coursework on the ATmega640 in C and assembly.',
+    ],
+    link: { label: 'UPM', href: 'https://www.upm.es' },
+  },
+];
+---
+
+<PageLayout
+  title="Engineering course"
+  eyebrow="Education"
+  description="Education of Nicolás Izquierdo Arruga: MSc ESECA at Toulouse INP–ENSEEIHT and BEng Industrial Engineering (Electronics and Control) at UPM."
+  lead="From industrial and electronic engineering in Madrid to embedded and communicating systems in Toulouse."
+>
+  <h2>Degrees</h2>
+  <Timeline items={education} />
+
+  <h2>Projects and productions</h2>
+  <ul>
+    <li><a href={url('/projects/wi-ufo-current-sensing')}>Bachelor's thesis: current sensing and a 24.4 ns hardware protection</a> (UPM, 9.8/10)</li>
+    <li><a href={url('/projects/astreloon')}>AstreLoon: RF co-processor for a stratospheric balloon</a> (student association, in progress)</li>
+  </ul>
+
+  <h2>MSc courses and projects (2026–2028)</h2>
+  <Placeholder>
+    <p>
+      Add the M1 courses and the school projects as they happen (one line each, with a link to a project page when
+      there is one). Good candidates for an FPGA profile: digital design and FPGA courses, communications, any VHDL
+      project with a testbench.
+    </p>
+  </Placeholder>
+</PageLayout>

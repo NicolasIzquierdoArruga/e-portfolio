@@ -1,0 +1,35 @@
+---
+/**
+ * Interactive KiCad schematic or PCB viewer (https://kicanvas.org).
+ * The KiCanvas script is only loaded on pages that use this component.
+ * Put the .kicad_sch / .kicad_pcb file in /public and pass its path:
+ *
+ *   <KiCanvas title="Sensor board" file="kicad/sensor.kicad_pcb" />
+ */
+import { url } from '../lib/url';
+
+interface Props {
+  title: string;
+  file: string;
+}
+
+const { title, file } = Astro.props;
+---
+
+<figure class="kicanvas">
+  <kicanvas-embed src={url(file)} controls="basic"></kicanvas-embed>
+  <figcaption>{title} · <a href={url(file)}>download the KiCad file</a></figcaption>
+</figure>
+
+<script is:inline type="module" src="https://kicanvas.org/kicanvas/kicanvas.js"></script>
+
+<style>
+  kicanvas-embed {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+</style>

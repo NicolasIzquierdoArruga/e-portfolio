@@ -1,0 +1,180 @@
+---
+/** Welcome page (home). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ProfilePhoto from '../components/ProfilePhoto.astro';
+import { SITE, NAV } from '../data/site';
+import { getProjectsByStatus } from '../lib/projects';
+import { url } from '../lib/url';
+
+const { finished, ongoing } = await getProjectsByStatus();
+const featured = finished.filter((p) => p.data.featured).slice(0, 3);
+
+// The four things an FPGA hiring team usually asks about, each backed by a project.
+const strengths = [
+  {
+    title: 'Timing closure at 416 MHz',
+    text: 'Closed a fixed-point DSP chain at a 2.4 ns period on an Artix-7: DSP48E1 cascades, registered block RAM, re-pipelining, Pblocks.',
+    href: '/projects/fpga-ddc-416mhz',
+  },
+  {
+    title: 'Verification against a model',
+    text: 'Fixed-point MATLAB model with the same quantisation as the RTL; VHDL testbenches dump every stage to CSV for comparison.',
+    href: '/projects/fpga-ddc-416mhz',
+  },
+  {
+    title: 'Board bring-up',
+    text: 'SPI master and state machines that configure a TI high-speed ADC (44 registers, read back and checked), debugged with ILA and oscilloscope.',
+    href: '/projects/adc-spi-bringup',
+  },
+  {
+    title: 'Nanosecond hardware paths',
+    text: 'A protection path with no CPU in it, measured at 24.4 ns from threshold crossing to PWM shutdown.',
+    href: '/projects/wi-ufo-current-sensing',
+  },
+];
+
+// The ENSEEIHT e-portfolio tabs (all nav entries except Welcome and Contact).
+const tabs = NAV.filter((n) => n.href !== '/' && n.href !== '/contact');
+---
+
+<BaseLayout>
+  <section class="hero container">
+    <ProfilePhoto />
+    <div>
+      <p class="eyebrow">FPGA · digital design · hardware</p>
+      <h1>{SITE.name}</h1>
+      <p class="headline">{SITE.headline} {SITE.availability}</p>
+      <p class="intro">
+        I design and verify FPGA logic in VHDL and bring it up on real boards. During my internship at Indra I ported
+        a fixed-point signal-processing chain to a Xilinx Artix-7 and closed timing at 416 MHz. I am now in the first
+        year of the MSc ESECA at Toulouse INP–ENSEEIHT.
+      </p>
+      <p class="focus">{SITE.focus}</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href={url(SITE.cv[0].file)}>Download CV (PDF)</a>
+        <a class="btn" href={SITE.linkedin} rel="me">LinkedIn</a>
+        <a class="btn" href={SITE.github} rel="me">GitHub</a>
+        <a class="btn" href={`mailto:${SITE.email}`}>Email</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="container band" aria-labelledby="strengths">
+    <h2 id="strengths">What I bring to an FPGA team</h2>
+    <ul class="strengths">
+      {
+        strengths.map((s) => (
+          <li class="card">
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <a href={url(s.href)}>See the project →</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="container band" aria-labelledby="featured">
+    <div class="section-head">
+      <h2 id="featured">Finished projects</h2>
+      <a href={url('/projects')}>All projects →</a>
+    </div>
+    <div class="grid">
+      {featured.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  {
+    ongoing.length > 0 && (
+      <section class="container band" aria-labelledby="ongoing">
+        <div class="section-head">
+          <h2 id="ongoing">Currently working on</h2>
+          <a href={url('/projects#ongoing')}>Ongoing projects →</a>
+        </div>
+        <div class="grid">
+          {ongoing.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section class="container band" aria-labelledby="explore">
+    <h2 id="explore">Explore this e-portfolio</h2>
+    <ul class="tabs">
+      {
+        tabs.map((t) => (
+          <li>
+            <a class="btn" href={url(t.href)}>
+              {t.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    align-items: center;
+    padding-top: 3rem;
+    padding-bottom: 1.5rem;
+  }
+  .hero > div {
+    flex: 1 1 26rem;
+  }
+  .headline {
+    font-size: 1.2rem;
+    font-weight: 550;
+    margin-bottom: 0.75rem;
+  }
+  .intro {
+    max-width: var(--prose-width);
+    color: var(--text-muted);
+  }
+  .focus {
+    display: inline-block;
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+    padding: 0.4rem 0.8rem;
+    font-weight: 500;
+  }
+  .band {
+    margin-top: 3rem;
+  }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .strengths {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+  .strengths h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+  }
+  .strengths p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  .tabs {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>
