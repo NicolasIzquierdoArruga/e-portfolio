@@ -10,7 +10,9 @@
  *
  * Pure SVG + a small script; no libraries.
  */
-import { url } from '../lib/url';
+import { url, isActive } from '../lib/url';
+
+const path = Astro.url.pathname;
 
 // One entry per header pin, left to right.
 const pins = [
@@ -20,11 +22,14 @@ const pins = [
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'CV', href: '/cv' },
-].map((p, i) => ({ ...p, x: 345 + i * 110, y: 92 }));
+].map((p, i) => ({ ...p, x: 345 + i * 110, y: 92, active: isActive(path, p.href) }));
 
 // The red wire starts at the 3V3 pin and its free end rests here.
 const anchor = { x: 120, y: 452 };
 const rest = { x: 255, y: 322 };
+// On a page that has a pin, the wire starts plugged into it.
+const current = pins.find((p) => p.active);
+const start = current ? { x: current.x, y: current.y } : rest;
 
 // Pins around the FPGA package (x, y, w, h).
 const chip = { x: 390, y: 232, s: 220 };
@@ -40,17 +45,18 @@ for (let i = 0; i < 9; i++) {
 <section class="board-wrap" aria-labelledby="board-title">
   <h2 id="board-title" class="visually-hidden">Site map</h2>
   <p class="hint">
-    <span aria-hidden="true">🔌</span> Plug the red wire into a pin to open a page. You can also tap a pin, or use the menu
-    at the top.
+    <span aria-hidden="true">🔌</span> Plug the red wire into a pin to open a page, or just tap a pin. RESET takes you
+    back to the start.
   </p>
 
   <svg
-    class="board"
+    class:list={['board', { plugged: !!current }]}
     viewBox="0 0 1000 560"
     role="group"
     aria-label="Cartoon FPGA board. Each header pin is a link to a page of the site."
     data-anchor={`${anchor.x},${anchor.y}`}
     data-rest={`${rest.x},${rest.y}`}
+    data-start={`${start.x},${start.y}`}
   >
     <defs>
       <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
@@ -83,10 +89,13 @@ for (let i = 0; i < 9; i++) {
     <rect class="metal" x="22" y="170" width="70" height="56" rx="6"></rect>
     <rect class="metal-dark" x="32" y="184" width="46" height="28" rx="4"></rect>
 
-    <!-- Reset button -->
-    <rect class="part-grey" x="110" y="78" width="46" height="46" rx="6"></rect>
-    <circle class="btn-red" cx="133" cy="101" r="14"></circle>
-    <text class="silk small" x="133" y="146">RESET</text>
+    <!-- Reset button: back to the welcome page -->
+    <a class="reset" href={url('/')} aria-label="Back to the welcome page">
+      <rect class="hit" x="96" y="66" width="74" height="92" rx="10"></rect>
+      <rect class="part-grey" x="110" y="78" width="46" height="46" rx="6"></rect>
+      <circle class="btn-red" cx="133" cy="101" r="14"></circle>
+      <text class="silk small" x="133" y="146">RESET</text>
+    </a>
 
     <!-- Power LED, always on -->
     <rect class="led-pwr" x="122" y="248" width="24" height="14" rx="4" filter="url(#glow)"></rect>
@@ -126,7 +135,7 @@ for (let i = 0; i < 9; i++) {
     <text class="silk small start" x="300" y="56">PAGES</text>
     {
       pins.map((p) => (
-        <a class="pin" href={url(p.href)} data-x={p.x} data-y={p.y} aria-label={`Open ${p.title ?? p.label}`}>
+        <a class:list={['pin', { on: p.active }]} href={url(p.href)} aria-current={p.active ? 'page' : undefined} data-x={p.x} data-y={p.y} aria-label={`Open ${p.title ?? p.label}`}>
           <rect class="hit" x={p.x - 52} y={p.y - 28} width="104" height="150" rx="10"></rect>
           <rect class="pad" x={p.x - 11} y={p.y - 11} width="22" height="22" rx="3"></rect>
           <text class="silk label" x={p.x} y={p.y + 52}>{p.label}</text>
@@ -156,7 +165,8 @@ for (let i = 0; i < 9; i++) {
     const [ax, ay] = svg.dataset.anchor!.split(',').map(Number);
     const [rx, ry] = svg.dataset.rest!.split(',').map(Number);
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let end = { x: rx, y: ry };
+    const [sx, sy] = svg.dataset.start!.split(',').map(Number);
+    let end = { x: sx, y: sy };
     let busy = false;
 
     function draw() {
@@ -218,7 +228,7 @@ for (let i = 0; i < 9; i++) {
       await animateTo({ x: Number(pin.dataset.x), y: Number(pin.dataset.y) }, 450);
       pins.forEach((p) => p.classList.remove('on'));
       pin.classList.add('on');
-      setTimeout(() => (window.location.href = pin.getAttribute('href')!), reduce ? 150 : 650);
+      setTimeout(() => (window.location.href = pin.getAttribute('href')!), reduce ? 100 : 350);
     }
 
     // Tap, click or Enter on a pin: plug in automatically.
@@ -235,6 +245,7 @@ for (let i = 0; i < 9; i++) {
       if (busy) return;
       dragging = true;
       svg.classList.add('touched', 'dragging');
+      pins.forEach((p) => p.classList.remove('on'));
       plug.setPointerCapture(e.pointerId);
       e.preventDefault();
     });
@@ -257,11 +268,12 @@ for (let i = 0; i < 9; i++) {
     plug.addEventListener('pointerup', drop);
     plug.addEventListener('pointercancel', drop);
 
-    // Coming back with the browser's back button: reset the board.
-    window.addEventListener('pageshow', () => {
+    // Coming back with the browser's back button: show this page's state again.
+    window.addEventListener('pageshow', (e) => {
+      if (!e.persisted) return;
       busy = false;
-      pins.forEach((p) => p.classList.remove('on'));
-      end = { x: rx, y: ry };
+      pins.forEach((p) => p.classList.toggle('on', p.getAttribute('aria-current') === 'page'));
+      end = { x: sx, y: sy };
       draw();
     });
 
@@ -271,7 +283,7 @@ for (let i = 0; i < 9; i++) {
 
 <style>
   .board-wrap {
-    margin: 1.5rem auto 0;
+    margin: 0;
   }
   .hint {
     color: var(--text-muted);
@@ -396,8 +408,24 @@ for (let i = 0; i < 9; i++) {
   }
 
   /* Pins are links. */
-  .pin {
+  .pin,
+  .reset {
     cursor: pointer;
+  }
+  .reset .hit {
+    fill: transparent;
+    stroke: transparent;
+    stroke-width: 3;
+  }
+  .reset:hover .btn-red {
+    fill: #f0604f;
+  }
+  .reset:focus-visible {
+    outline: none;
+  }
+  .reset:focus-visible .hit {
+    stroke: #ffe066;
+    stroke-dasharray: 8 6;
   }
   .pin .hit {
     fill: transparent;
@@ -452,8 +480,8 @@ for (let i = 0; i < 9; i++) {
     fill: #c9ced3;
   }
   /* Gentle bob to show the plug can be grabbed, until the first touch. */
-  .board:not(.touched) .plug-body,
-  .board:not(.touched) .plug-tip {
+  .board:not(.touched):not(.plugged) .plug-body,
+  .board:not(.touched):not(.plugged) .plug-tip {
     animation: bob 1.6s ease-in-out infinite;
   }
   @keyframes bob {

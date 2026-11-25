@@ -7,11 +7,13 @@ interface Props {
   description: string;
   eyebrow?: string;
   lead?: string;
+  /** Show the FPGA board navigation on the left (default: yes). */
+  board?: boolean;
 }
-const { title, description, eyebrow, lead } = Astro.props;
+const { title, description, eyebrow, lead, board = true } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} board={board}>
   <div class="container page">
     {eyebrow && <p class="eyebrow">{eyebrow}</p>}
     <h1>{title}</h1>
