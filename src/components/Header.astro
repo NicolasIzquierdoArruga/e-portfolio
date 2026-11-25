@@ -40,6 +40,7 @@ const path = Astro.url.pathname;
     </nav>
 
     <div class="actions">
+      <button type="button" class="btn board-on" title="Show the FPGA board navigation again">Board view</button>
       <a class="btn btn-primary cv" href={url('/cv')}>CV</a>
       <ThemeToggle />
     </div>
@@ -74,8 +75,23 @@ const path = Astro.url.pathname;
     height: 2rem;
     flex-shrink: 0;
   }
-  nav {
-    margin-left: auto;
+  /* Push the menu and buttons to the right, whether or not the menu is shown. */
+  .brand {
+    margin-right: auto;
+  }
+  .board-on {
+    display: none;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+  }
+  :global(html[data-nav='classic']) .board-on {
+    display: inline-flex;
+  }
+  /* Wide screens with the board on the left: the board is the menu. */
+  @media (min-width: 1024px) {
+    :global(html:not([data-nav='classic']) body.with-board) nav {
+      display: none;
+    }
   }
   .actions {
     display: flex;

@@ -3,6 +3,6 @@ import PageLayout from '../layouts/PageLayout.astro';
 import { url } from '../lib/url';
 ---
 
-<PageLayout title="Page not found" description="This page does not exist." lead="This page does not exist or has moved.">
+<PageLayout board={false} title="Page not found" description="This page does not exist." lead="This page does not exist or has moved.">
   <p><a class="btn btn-primary" href={url('/')}>Back to the welcome page</a></p>
 </PageLayout>

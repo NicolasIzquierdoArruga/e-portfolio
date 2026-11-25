@@ -259,7 +259,8 @@ hr {
 }
 
 .page {
-  padding: 2.5rem 0 4rem;
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
 }
 
 /* Buttons and button-like links */
@@ -362,6 +363,17 @@ figcaption {
   font-size: 0.9rem;
   color: var(--text-muted);
   margin-top: 0.4rem;
+}
+
+/* Smooth cross-fade between pages in browsers that support it; the board
+   column has its own transition name so it stays still. */
+@view-transition {
+  navigation: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -8,6 +8,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import BoardNav from '../components/BoardNav.astro';
 import { SITE } from '../data/site';
 import { url } from '../lib/url';
 
@@ -20,9 +21,16 @@ interface Props {
   image?: string;
   /** 'article' for project pages, 'website' otherwise. */
   type?: 'website' | 'article';
+  /**
+   * Show the FPGA board navigation. On wide screens it stays fixed on the
+   * left and the page content scrolls on the right. Project pages leave it
+   * out so they can use the full width for reading.
+   */
+  board?: boolean;
 }
 
-const { title, description = SITE.description, image, type = 'website' } = Astro.props;
+const { title, description = SITE.description, image, type = 'website', board = false } = Astro.props;
+const isHome = Astro.url.pathname.replace(/\/$/, '') === url('/').replace(/\/$/, '');
 
 const fullTitle = title ? `${title} · ${SITE.shortName}` : `${SITE.name} · FPGA and embedded hardware`;
 // Astro.site comes from SITE_URL in astro.config.mjs, so these are absolute URLs.
@@ -63,19 +71,57 @@ const ogImage = new URL(image ?? url('og.png'), Astro.site);
         if (saved === 'light' || saved === 'dark') {
           document.documentElement.dataset.theme = saved;
         }
+        if (localStorage.getItem('nav') === 'classic') {
+          document.documentElement.dataset.nav = 'classic';
+        }
       } catch (e) {
         /* storage blocked: follow the system setting */
       }
     </script>
     <slot name="head" />
   </head>
-  <body>
+  <body class:list={{ 'with-board': board }}>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
-    <main id="main">
-      <slot />
-    </main>
-    <Footer />
+    {
+      board ? (
+        <div class="split">
+          <aside class:list={['board-col', { home: isHome }]} aria-label="Board navigation">
+            <BoardNav />
+            <button type="button" class="btn skip-board">Skip the board and use a normal menu</button>
+          </aside>
+          <div class="content-col">
+            <main id="main">
+              <slot />
+            </main>
+            <Footer />
+          </div>
+        </div>
+      ) : (
+        <>
+          <main id="main">
+            <slot />
+          </main>
+          <Footer />
+        </>
+      )
+    }
+    <script>
+      // "Skip the board" and "Board view" buttons: remember the choice.
+      function setNav(classic: boolean) {
+        const root = document.documentElement;
+        if (classic) root.dataset.nav = 'classic';
+        else delete root.dataset.nav;
+        try {
+          if (classic) localStorage.setItem('nav', 'classic');
+          else localStorage.removeItem('nav');
+        } catch {
+          /* storage blocked: the choice lasts for this page only */
+        }
+      }
+      document.querySelector('.skip-board')?.addEventListener('click', () => setNav(true));
+      document.querySelector('.board-on')?.addEventListener('click', () => setNav(false));
+    </script>
   </body>
 </html>
 
@@ -92,5 +138,49 @@ const ogImage = new URL(image ?? url('og.png'), Astro.site);
   }
   .skip-link:focus {
     top: 1rem;
+  }
+
+  /* --- Board layout --- */
+  .skip-board {
+    align-self: flex-start;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+  }
+  /* Phones and tablets: the board only shows on the welcome page, above the content. */
+  .board-col {
+    padding: 1.5rem 1rem 0;
+  }
+  .board-col:not(.home) {
+    display: none;
+  }
+  /* "Skip the board" chosen: no board anywhere. */
+  :global(html[data-nav='classic']) .board-col {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    :global(html:not([data-nav='classic'])) .split {
+      display: grid;
+      grid-template-columns: minmax(24rem, 46%) minmax(0, 1fr);
+      align-items: start;
+    }
+    :global(html:not([data-nav='classic'])) .board-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: sticky;
+      top: 3.85rem;
+      height: calc(100vh - 3.85rem);
+      padding: 1.5rem 1.5rem 1.5rem 2rem;
+      border-right: 1px solid var(--border);
+      view-transition-name: board;
+    }
+    :global(html:not([data-nav='classic'])) .content-col {
+      min-width: 0;
+    }
+    /* Header spans the full width, lined up with the two columns. */
+    :global(html:not([data-nav='classic']) body.with-board .site-header .container) {
+      max-width: none;
+      padding: 0 1.5rem 0 2rem;
+    }
   }
 </style>
