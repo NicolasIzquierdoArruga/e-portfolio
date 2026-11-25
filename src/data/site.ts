@@ -7,11 +7,11 @@ export const SITE = {
   shortName: 'Nicolás Izquierdo',
   headline: 'FPGA and embedded hardware engineer, MSc student.',
   /** Who the site is written for first. Used in the home page intro. */
-  focus: 'Looking for an FPGA hardware engineering internship at a high-frequency trading firm.',
+  focus: 'Looking for a hardware engineering internship, FPGA-focused, in space, defence or high-frequency trading.',
   availability: 'Available for a summer 2027 internship.',
   location: 'Toulouse, France',
   description:
-    'Portfolio of Nicolás Izquierdo Arruga, FPGA and embedded hardware engineer and MSc student at Toulouse INP–ENSEEIHT: VHDL, timing closure at 416 MHz on Artix-7, fixed-point verification and hardware bring-up.',
+    'Portfolio of Nicolás Izquierdo Arruga, hardware engineer focused on FPGA and MSc student at Toulouse INP–ENSEEIHT: VHDL and timing closure at 416 MHz, board bring-up, analog measurement chains and hardware protections tested on real hardware.',
 
   // Contact. The phone number is intentionally NOT published.
   email: 'nicolasizquierdo25@gmail.com',
@@ -35,20 +35,12 @@ export const SITE = {
   ],
 } as const;
 
-/**
- * Main navigation. The first six entries follow the ENSEEIHT e-portfolio
- * framework (Welcome, Engineering course, International mobility,
- * Sustainability & civic engagement, Sport & other activities, Career
- * development); Projects, About and Contact are added for recruiters.
- */
+/** Main navigation, in the order shown in the header. */
 export const NAV = [
   { href: '/', label: 'Welcome' },
   { href: '/projects', label: 'Projects' },
   { href: '/engineering-course', label: 'Engineering course' },
   { href: '/career', label: 'Career' },
-  { href: '/mobility', label: 'Mobility' },
-  { href: '/engagement', label: 'Engagement' },
-  { href: '/activities', label: 'Activities' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ] as const;

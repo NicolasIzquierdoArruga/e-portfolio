@@ -8,8 +8,8 @@ status: completed
 featured: true
 order: 3
 tags: ['Embedded C', 'TI C2000', 'Analog', 'Current sensing', 'LTspice', 'MATLAB', 'Power electronics']
-thumbnail: '../../assets/diagrams/wiufo-trip.svg'
-thumbnailAlt: 'Diagram of the hardware-only trip path: CMPSS comparator, X-BAR, Digital Compare A and B, Trip Zone.'
+thumbnail: '../../assets/projects/wi-ufo/bench.jpg'
+thumbnailAlt: 'Lab bench with instruments, a laptop and the C2000 LaunchPad wired to the WI-UFO converter board.'
 keyFacts:
   - { value: '24.4 ns', label: 'threshold crossing to PWM shutdown, measured' }
   - { value: '9 signals', label: 'sampled simultaneously on 4 ADCs' }
@@ -17,6 +17,28 @@ keyFacts:
   - { value: '9.8 / 10', label: 'thesis grade' }
 links:
   - { label: 'Universidad Politécnica de Madrid', url: 'https://www.upm.es' }
+gallery:
+  - src: '../../assets/projects/wi-ufo/boards-wiring.jpg'
+    alt: 'The red TI LaunchXL-F28379D board wired to the green WI-UFO converter board.'
+    caption: 'Wiring between the C2000 LaunchPad and the converter board.'
+  - src: '../../assets/projects/wi-ufo/isns-a-sweep.png'
+    alt: 'Plot of theoretical and measured ADC counts against excitation current from -40 A to +40 A for Isns_A. Both lines overlap.'
+    caption: 'Isns_A bench sweep, −40 A to +40 A: theoretical vs measured ADC counts (axis labels in Spanish).'
+  - src: '../../assets/projects/wi-ufo/vdc-sweep.png'
+    alt: 'Plot of theoretical and measured ADC counts against input voltage from 0 to 100 V for Vdc. Both lines overlap.'
+    caption: 'Vdc bench sweep, 0 to 100 V: theoretical vs measured ADC counts.'
+  - src: '../../assets/projects/wi-ufo/nomogram-vdc.png'
+    alt: 'Design-space nomogram in the (Rs, Cs) plane with constant-bandwidth lines in blue and constant-settling-time curves in orange.'
+    caption: 'Design-space nomogram for the Vdc input network (MATLAB): constant bandwidth in blue, constant settling time in orange.'
+  - src: '../../assets/projects/wi-ufo/ltspice-isns-a.png'
+    alt: 'LTspice schematic of the Isns_A chain: sensor model, voltage divider with low-pass filter, and ADC sampler.'
+    caption: 'LTspice model of the Isns_A chain: sensor, divider and low-pass filter, ADC sample-and-hold.'
+  - src: '../../assets/projects/wi-ufo/ltspice-isns-a-waveform.png'
+    alt: 'LTspice simulation of the branch current and the sampled ADC input voltage over a few switching periods.'
+    caption: 'LTspice result for Isns_A: branch current and what the ADC samples.'
+  - src: '../../assets/projects/wi-ufo/wi-ufo-concept.png'
+    alt: 'WI-UFO concept: a lander power unit charging a drone at 2 kW and a rover at 10 kW over bidirectional inductive links.'
+    caption: 'The WI-UFO concept (figure from the WI-UFO project, CEI-UPM).'
 ---
 
 ## Overview
@@ -44,10 +66,13 @@ measurement basis that the protection needs.
 
 **Everything on this page was built and tested on real hardware, not only simulated.**
 
+![My test bench in the lab: bench instruments, a laptop, and the C2000 LaunchPad wired to the WI-UFO converter board.](../../assets/projects/wi-ufo/bench.jpg)
+
 ## My role
 
-The whole measurement chain was my thesis work: simulation, sizing of the ADC input
-network, acquisition firmware, bench characterisation and the two protection prototypes.
+The converter belongs to the WI-UFO team. The measurement chain was my thesis work:
+simulation, sizing of the ADC input network, acquisition firmware, bench
+characterisation and the two protection prototypes.
 
 ## Hardware: the measurement chain
 
@@ -113,6 +138,13 @@ inputs cannot be mixed on the same ADC. The final split:
 - **The ADC resolution was not the limit.** 1 % of full scale needs 6 to 8 bits, and the
   ADCs have 12 or 16. The input network was the limit: for the two AC chains, no
   charge-sharing capacitor satisfies both the bandwidth and the acquisition time.
+![Residuals of the five chains as a percentage of full scale before calibration: four stay within ±1 %, Icres reaches about 5 %.](../../assets/projects/wi-ufo/residuals-uncalibrated.png)
+
+![Residuals of the five chains after a gain and offset calibration: all within ±0.4 % of full scale.](../../assets/projects/wi-ufo/residuals-calibrated.png)
+
+*Residuals of the five chains in % of full scale (4096 counts): first against the design line
+(uncalibrated), then against the measured line (calibrated). Axis labels in Spanish.*
+
 - **Conclusion:** amplitude thresholds can now be set with known accuracy. Reaction time
   cannot yet: gain, offset and noise are measured, but bandwidth and delay need a dynamic
   test campaign, which I proposed as future work.
@@ -134,8 +166,15 @@ The non-obvious detail: Digital Compare events are split per output. The trip mu
 routed to both the A and B paths. Otherwise one switch of the half-bridge keeps
 conducting during the fault, which is worse than no protection at all.
 
-<!-- TODO (Nicolás): add the oscilloscope captures of the 24.4 ns trip (thesis Figures 11.1
-and 11.2) to the gallery below, see the README section "Add images". -->
+![Oscilloscope, 2 µs per division: the PWM output (yellow) switches normally until the stimulus (blue) leaves the allowed window; the comparator output (purple) goes high and switching stops.](../../assets/projects/wi-ufo/trip-overview.png)
+
+*Trip test on one branch current, 2 µs/div. Yellow: PWM output. Blue: stimulus on the
+monitored input. Purple: comparator output, which goes high when the signal leaves the
+allowed window.*
+
+![Oscilloscope, 40 ns per division: cursors measure 24.4 ns between the threshold crossing and the PWM output falling.](../../assets/projects/wi-ufo/trip-24ns-detail.png)
+
+*Same test at 40 ns/div. The cursors measure 24.4 ns from threshold crossing to PWM shutdown.*
 
 ### Peak capture of a 90 kHz sine without fast sampling
 
