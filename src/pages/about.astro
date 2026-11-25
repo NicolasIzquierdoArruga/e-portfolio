@@ -1,6 +1,16 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import Gallery from '../components/Gallery.astro';
 import { url } from '../lib/url';
+import rugbyTeam from '../assets/about/rugby-team.jpg';
+import gredosLake from '../assets/about/gredos-lake.jpg';
+import gredosClimb from '../assets/about/gredos-climb.jpg';
+
+const photos = [
+  { src: rugbyTeam, alt: 'Large group photo of the rugby team and supporters on a rugby pitch in Madrid, under the posts.', caption: 'With the rugby team in Madrid.' },
+  { src: gredosLake, alt: 'Nicolás with a hiking backpack and sun hat, standing on granite slabs beside a mountain lake under rocky peaks.', caption: 'Sierra de Gredos: by a mountain lake.' },
+  { src: gredosClimb, alt: 'Nicolás scrambling up a granite chimney next to a rope, seen from below against a blue sky.', caption: 'Sierra de Gredos: scrambling up the granite.' },
+];
 
 // Only skills I can defend in an interview. Grouped for an FPGA reader.
 const skills = [
@@ -68,7 +78,11 @@ const certifications = [
     I loved every sport growing up, but the one I have stuck with is rugby. During my university years in Madrid, we
     won the Politécnica rugby cup two years in a row.
   </p>
-  <p>Away from the pitch, I like skiing and going on treks in the mountains.</p>
+  <p>
+    Away from the pitch, I like skiing and going on treks in the mountains. Last summer I did a two-day hike around
+    the Sierra de Gredos.
+  </p>
+  <Gallery images={photos} fit="cover" />
 
   <h2>What I like in engineering</h2>
   <p>

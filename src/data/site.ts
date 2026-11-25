@@ -20,17 +20,12 @@ export const SITE = {
   linkedin: 'https://www.linkedin.com/in/nicolas-izquierdo-arruga-3b37782a2',
   linkedinLabel: 'nicolas-izquierdo-arruga',
 
-  // CV files live in /public/cv/. Add the PDFs with exactly these names.
+  // The CV lives in /public/cv/ with exactly this name.
   cv: [
     {
-      label: 'CV: FPGA and digital design',
-      file: 'cv/Nicolas_Izquierdo_CV_FPGA.pdf',
-      note: 'Education, experience, projects, skills. For FPGA and digital design roles.',
-    },
-    {
-      label: 'CV: Space and hardware',
-      file: 'cv/Nicolas_Izquierdo_CV_Space.pdf',
-      note: 'Education, space projects, experience, skills. For space and on-board electronics roles.',
+      label: 'CV',
+      file: 'cv/Nicolas_Izquierdo_CV.pdf',
+      note: 'Education, experience, projects and skills on one page.',
     },
   ],
 } as const;
