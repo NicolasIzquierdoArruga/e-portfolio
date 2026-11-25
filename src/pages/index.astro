@@ -51,14 +51,6 @@ const strengths = [
         work to make everything run together. This site collects the projects I have done so far, from my bachelor's
         thesis to my internship at Indra, and the ones I am working on now.
       </p>
-      <nav class="page-links" aria-label="On this page">
-        <ul>
-          <li><a class="line-link" href="#featured">Finished projects</a></li>
-          {ongoing.length > 0 && <li><a class="line-link" href="#ongoing">Currently working on</a></li>}
-          <li><a class="line-link" href="#strengths">What I have worked on</a></li>
-          <li><a class="line-link" href={url(SITE.cv[0].file)}>Download CV (PDF)</a></li>
-        </ul>
-      </nav>
       <ul class="icon-links" aria-label="Elsewhere">
         <li>
           <a href={SITE.github} rel="me" aria-label="GitHub" title="GitHub">
@@ -82,7 +74,7 @@ const strengths = [
   <section class="container band" aria-labelledby="featured">
     <div class="section-head">
       <h2 id="featured">Finished projects</h2>
-      <a class="line-link" href={url('/projects')}>All projects</a>
+      <a href={url('/projects')}>All projects →</a>
     </div>
     <div class="grid">
       {featured.map((project) => <ProjectCard project={project} />)}
@@ -94,7 +86,7 @@ const strengths = [
       <section class="container band" aria-labelledby="ongoing">
         <div class="section-head">
           <h2 id="ongoing">Currently working on</h2>
-          <a class="line-link" href={url('/projects#ongoing')}>Ongoing projects</a>
+          <a href={url('/projects#ongoing')}>Ongoing projects →</a>
         </div>
         <div class="grid">
           {ongoing.map((project) => (
@@ -113,7 +105,7 @@ const strengths = [
           <li class="card">
             <h3>{s.title}</h3>
             <p>{s.text}</p>
-            <a class="line-link" href={url(s.href)}>See the project</a>
+            <a href={url(s.href)}>See the project →</a>
           </li>
         ))
       }
@@ -137,19 +129,10 @@ const strengths = [
     max-width: var(--prose-width);
     color: var(--text-muted);
   }
-  .page-links ul,
   .icon-links {
     list-style: none;
     padding: 0;
-    margin: 0;
-  }
-  .page-links {
-    margin: 1.75rem 0 1.5rem;
-  }
-  .page-links li + li {
-    margin-top: 0.85rem;
-  }
-  .icon-links {
+    margin: 1.5rem 0 0;
     display: flex;
     gap: 1.1rem;
     align-items: center;

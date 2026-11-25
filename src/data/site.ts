@@ -17,8 +17,8 @@ export const SITE = {
   email: 'nicolasizquierdo25@gmail.com',
   schoolEmail: 'nicolas.izquierdo-arruga@etu.toulouse-inp.fr',
   github: 'https://github.com/NicolasIzquierdoArruga',
-  linkedin: 'https://www.linkedin.com/in/nicolas-izquierdo-arruga-3b37782a2',
-  linkedinLabel: 'nicolas-izquierdo-arruga',
+  linkedin: 'https://www.linkedin.com/in/nicolas-izquierdo-3b37782a2',
+  linkedinLabel: 'nicolas-izquierdo',
 
   // The CV lives in /public/cv/ with exactly this name.
   cv: [
