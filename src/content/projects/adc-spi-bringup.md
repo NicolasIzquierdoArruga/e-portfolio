@@ -14,14 +14,7 @@ keyFacts:
   - { value: '44', label: 'registers written and read back' }
   - { value: '24-bit', label: 'SPI frames' }
   - { value: '5 MHz', label: 'default SCLK, divided from 416 MHz' }
-notice: 'Done during my internship at Indra. Described at the engineering level only. The diagram is my own drawing, and screens and labels in the lab photo are blurred on purpose.'
-gallery:
-  - src: '../../assets/projects/adc-spi/spi-setup.jpg'
-    alt: 'Lab bench: oscilloscope probing the SPI lines, an RF signal generator providing the ADC clock, and the two evaluation boards on anti-static foam.'
-    caption: 'The bench: oscilloscope on the SPI lines, signal generator for the ADC clock, and the boards on anti-static foam.'
-  - src: '../../assets/projects/adc-spi/spi-boards.jpg'
-    alt: 'Top view of the TI ADC evaluation board and the TSWDC155EVM FPGA board joined by the FMC connector, with the JTAG programmer plugged in.'
-    caption: 'ADC evaluation board (red) and Artix-7 board (green), joined over FMC, programmed through JTAG.'
+notice: 'Done during my internship at Indra. Described at the engineering level only. The diagram is my own drawing.'
 ---
 
 ## Overview

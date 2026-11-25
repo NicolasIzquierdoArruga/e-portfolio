@@ -40,17 +40,21 @@ const strengths = [
   <section class="hero container">
     <ProfilePhoto />
     <div>
-      <p class="eyebrow">FPGA · digital design · hardware</p>
-      <h1>{SITE.name}</h1>
-      <p class="headline">{SITE.headline} {SITE.availability}</p>
+      <h1>Hi, I'm Nicolás Izquierdo</h1>
       <p class="intro">
-        I design and verify FPGA logic in VHDL and bring it up on real boards. During my internship in Indra's Air
-        Defence division I ported a fixed-point signal-processing chain to a Xilinx Artix-7 and closed timing at
-        416 MHz. For my bachelor's thesis I built and characterised the current-sensing chain of a
-        planetary-exploration wireless charger, on real hardware. I am now in the first year of the MSc ESECA
-        (Aeronautics and Space track) at Toulouse INP–ENSEEIHT.
+        I was born and raised in Madrid, where I studied Industrial Engineering, Electronics and Control at the
+        Universidad Politécnica de Madrid. I am now in Toulouse, in the first year of the MSc ESECA (Aeronautics and
+        Space track) at Toulouse INP–ENSEEIHT.
       </p>
-      <p class="focus">{SITE.focus}</p>
+      <p class="intro">
+        Most of what I enjoy building sits close to the hardware: FPGA logic in VHDL, the boards around it and the lab
+        work to make everything run together. This site collects the projects I have done so far, from my bachelor's
+        thesis to my internship at Indra, and the ones I am working on now.
+      </p>
+      <p class="intro">
+        Outside engineering I play rugby, ski and go trekking. There is a bit more about me on
+        <a href={url('/about')}>the About page</a>.
+      </p>
       <div class="btn-row">
         <a class="btn btn-primary" href={url(SITE.cv[0].file)}>Download CV (PDF)</a>
         <a class="btn" href={SITE.linkedin} rel="me">LinkedIn</a>
@@ -58,21 +62,6 @@ const strengths = [
         <a class="btn" href={`mailto:${SITE.email}`}>Email</a>
       </div>
     </div>
-  </section>
-
-  <section class="container band" aria-labelledby="strengths">
-    <h2 id="strengths">What I bring to a hardware team</h2>
-    <ul class="strengths">
-      {
-        strengths.map((s) => (
-          <li class="card">
-            <h3>{s.title}</h3>
-            <p>{s.text}</p>
-            <a href={url(s.href)}>See the project →</a>
-          </li>
-        ))
-      }
-    </ul>
   </section>
 
   <section class="container band" aria-labelledby="featured">
@@ -101,6 +90,20 @@ const strengths = [
     )
   }
 
+  <section class="container band" aria-labelledby="strengths">
+    <h2 id="strengths">What I have worked on</h2>
+    <ul class="strengths">
+      {
+        strengths.map((s) => (
+          <li class="card">
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <a href={url(s.href)}>See the project →</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 </BaseLayout>
 
 <style>
@@ -115,21 +118,9 @@ const strengths = [
   .hero > div {
     flex: 1 1 26rem;
   }
-  .headline {
-    font-size: 1.2rem;
-    font-weight: 550;
-    margin-bottom: 0.75rem;
-  }
   .intro {
     max-width: var(--prose-width);
     color: var(--text-muted);
-  }
-  .focus {
-    display: inline-block;
-    background: var(--accent-soft);
-    border-radius: var(--radius);
-    padding: 0.4rem 0.8rem;
-    font-weight: 500;
   }
   .band {
     margin-top: 3rem;

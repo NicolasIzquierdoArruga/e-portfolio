@@ -1,7 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import Timeline from '../components/Timeline.astro';
-import Placeholder from '../components/Placeholder.astro';
 import { url } from '../lib/url';
 
 const education = [
@@ -38,19 +37,4 @@ const education = [
 >
   <h2>Degrees</h2>
   <Timeline items={education} />
-
-  <h2>Projects and productions</h2>
-  <ul>
-    <li><a href={url('/projects/wi-ufo-current-sensing')}>Bachelor's thesis: current sensing and a 24.4 ns hardware protection</a> (UPM, 9.8/10)</li>
-    <li><a href={url('/projects/astreloon')}>AstreLoon: RF co-processor for a stratospheric balloon</a> (student association, in progress)</li>
-  </ul>
-
-  <h2>MSc courses and projects (2026–2028)</h2>
-  <Placeholder>
-    <p>
-      Add the M1 courses and the school projects as they happen (one line each, with a link to a project page when
-      there is one). Good candidates for an FPGA profile: digital design and FPGA courses, communications, any VHDL
-      project with a testbench.
-    </p>
-  </Placeholder>
 </PageLayout>
