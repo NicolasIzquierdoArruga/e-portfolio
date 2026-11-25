@@ -57,6 +57,15 @@ inline uint64_t read_be48(const uint8_t* p) {
 }
 ```
 
+## Next steps
+
+The software parser is the first stage. The plan from here:
+
+1. **FPGA version.** Implement the parser on an FPGA.
+2. **Validation with cocotb.** Verify the FPGA parser with a cocotb testbench.
+
+Nothing of this is built yet. I will add it to this page as it happens.
+
 ## Project log
 
 New entries go at the top.
