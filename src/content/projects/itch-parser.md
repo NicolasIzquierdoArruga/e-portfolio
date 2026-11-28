@@ -1,13 +1,13 @@
 ---
 title: 'ITCH 5.0 market-data feed handler in hardware'
-summary: 'In progress. A feed handler that decodes real NASDAQ TotalView-ITCH 5.0 order messages, first in a C++ reference model (done) and next in HDL on an FPGA, checked against the model message by message.'
+summary: 'In progress. A feed handler that decodes real NASDAQ TotalView-ITCH 5.0 order messages, first in a C++ reference model (done) and next in SystemVerilog on an FPGA, checked against the model message by message.'
 context: 'Personal project · high-frequency trading'
 period: 'Nov 2026 – present'
 date: 2026-11-28
 status: in-progress
 featured: false
 order: 11
-tags: ['C++', 'FPGA', 'Market data', 'ITCH 5.0', 'Binary protocols']
+tags: ['C++', 'FPGA', 'SystemVerilog', 'Market data', 'ITCH 5.0', 'Binary protocols']
 thumbnail: '../../assets/diagrams/itch-message.svg'
 thumbnailAlt: 'Byte layout of an ITCH 5.0 Add Order message.'
 keyFacts:
@@ -26,20 +26,20 @@ in hardware, where the latency of each message can be counted in clock cycles.
 
 This project builds that first stage for NASDAQ's full order book feed,
 TotalView-ITCH 5.0. It starts with a C++ reference parser, which also produces the test
-vectors, and continues with an HDL parser that must give the same output for every
+vectors, and continues with a SystemVerilog parser that must give the same output for every
 message.
 
-**This project is in progress.** Step 1 of 6 is done; the HDL parser is next.
+**This project is in progress.** Step 1 of 6 is done; the SystemVerilog parser is next.
 
 ## Roadmap
 
 | # | Step | Status |
 | --- | --- | --- |
 | 1 | C++ parser for Add Order (A), Order Executed (E), Order Cancel (X) and Order Delete (D), and golden test vectors for one stock | Done |
-| 2 | HDL parser: a byte stream in (8-bit data + valid), decoded fields and a valid pulse out, in simulation | Next |
+| 2 | SystemVerilog parser: a byte stream in (8-bit data + valid), decoded fields and a valid pulse out, simulated with Verilator | Next |
 | 3 | cocotb testbench that streams the real messages and compares every field with the C++ output | Planned |
 | 4 | Documentation: block diagram, test instructions, clock cycles per message | Planned |
-| 5 | Port the HDL to VHDL, with the same ports and the same testbench | Planned |
+| 5 | Port the SystemVerilog parser to VHDL, with the same ports and the same testbench | Planned |
 | 6 | Extensions: top-of-book tracker, Vivado synthesis (Fmax, resources) from a scripted build, an FPGA board, Ethernet/UDP input | Later |
 
 ## How the format works
@@ -59,7 +59,7 @@ is the message type. All fields are fixed-width and big-endian, and the timestam
   input or latency benchmarks.
 - **The specification is the only source for offsets.** Every field offset and message
   length is a named constant in one header, checked against the ITCH 5.0 specification.
-  The HDL will use the same names.
+  The SystemVerilog will use the same names.
 - **Validate before reading.** The decoder checks the message type and its exact length
   before it reads any field, so it never reads past the end of a message. Unknown types
   and wrong lengths are rejected.
